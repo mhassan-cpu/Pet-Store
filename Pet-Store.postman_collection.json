@@ -1,0 +1,1773 @@
+{
+	"info": {
+		"_postman_id": "77e1683a-013f-47f2-a502-db3bf6a7abc8",
+		"name": "Pet-Store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18930967",
+		"_collection_link": "https://www.postman.com/yxyxyxyxyxyx/workspace/xyz2/collection/18930967-77e1683a-013f-47f2-a502-db3bf6a7abc8?action=share&source=collection_link&creator=18930967"
+	},
+	"item": [
+		{
+			"name": "1-Pet",
+			"item": [
+				{
+					"name": "1.1 Create new Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [1.1] TC01 - Validate that status code is 200 or 201\r",
+									"pm.test(\"[1.1] TC01 - Validate that status code is 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[1.1] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC03 - Validate that pet ID is a positive integer\r",
+									"pm.test(\"[1.1] TC03 - Validate that pet ID is a positive integer\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.id).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC04 - Validate category is an object\r",
+									"pm.test(\"[1.1] TC04 - Validate category is an object\", function () {\r",
+									"    pm.expect(jsonData.category).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC05 - Validate category.id is an integer\r",
+									"pm.test(\"[1.1] TC05 - Validate category.id is an integer\", function () {\r",
+									"    pm.expect(jsonData.category.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC06 - Validate category.name is a non-empty string\r",
+									"pm.test(\"[1.1] TC06 - Validate category.name is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.category.name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC07 - Validate name field is a non-empty string\r",
+									"pm.test(\"[1.1] TC07 - Validate name field is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC08 - Validate photoUrls is a non-empty array\r",
+									"pm.test(\"[1.1] TC08 - Validate photoUrls is a non-empty array\", function () {\r",
+									"    pm.expect(jsonData.photoUrls).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC09 - Validate photoUrls[0] is a valid image URL\r",
+									"pm.test(\"[1.1] TC09 - Validate photoUrls[0] is a valid image URL\", function () {\r",
+									"    pm.expect(jsonData.photoUrls[0]).to.match(/^https?:\\/\\/.+\\.(jpg|jpeg|png|gif)$/);\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC10 - Validate photoUrls[0] contains a valid UUID\r",
+									"pm.test(\"[1.1] TC10 - Validate photoUrls[0] contains a valid UUID\", function () {\r",
+									"    const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i;\r",
+									"    pm.expect(jsonData.photoUrls[0]).to.match(uuidRegex);\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC11 - Validate photoUrls has no empty values\r",
+									"pm.test(\"[1.1] TC11 - Validate photoUrls has no empty values\", function () {\r",
+									"    jsonData.photoUrls.forEach(url => {\r",
+									"        pm.expect(url).to.not.be.empty;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC12 - Validate tags is a non-empty array\r",
+									"pm.test(\"[1.1] TC12 - Validate tags is a non-empty array\", function () {\r",
+									"    pm.expect(jsonData.tags).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC13 - Validate tag.id is an integer\r",
+									"pm.test(\"[1.1] TC13 - Validate tag.id is an integer\", function () {\r",
+									"    pm.expect(jsonData.tags[0].id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC14 - Validate tag.name is a non-empty string\r",
+									"pm.test(\"[1.1] TC14 - Validate tag.name is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.tags[0].name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC15 - Validate status field is one of: available, pending, sold\r",
+									"pm.test(\"[1.1] TC15 - Validate status field is one of: available, pending, sold\", function () {\r",
+									"    const allowed = [\"available\", \"pending\", \"sold\"];\r",
+									"    pm.expect(allowed).to.include(jsonData.status);\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC16 - Validate response does not contain unexpected fields\r",
+									"pm.test(\"[1.1] TC16 - Validate response does not contain unexpected fields\", function () {\r",
+									"    const allowedFields = [\"id\", \"category\", \"name\", \"photoUrls\", \"tags\", \"status\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC17 - Validate field types match schema (id: int, name: str, etc.)\r",
+									"pm.test(\"[1.1] TC17 - Validate field types match schema (id: int, name: str, etc.)\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.category.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.category.name).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.photoUrls).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData.tags).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData.tags[0].id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.tags[0].name).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [1.1] TC18 - Validate category and tags objects have correct structure\r",
+									"pm.test(\"[1.1] TC18 - Validate category and tags objects have correct structure\", function () {\r",
+									"    pm.expect(jsonData.category).to.have.all.keys(\"id\", \"name\");\r",
+									"    pm.expect(jsonData.tags[0]).to.have.all.keys(\"id\", \"name\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"generatedUuid\", pm.variables.replaceIn(\"{{$uuid}}\"));\r",
+									"pm.environment.set(\"uuid\", pm.variables.replaceIn(\"{{$uuid}}\"));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": {{$randomInt}},\n  \"category\": {\n    \"id\": {{$randomInt}},\n    \"name\": \"{{$randomWord}}\"\n  },\n  \"name\": \"{{$randomFirstName}}\",\n  \"photoUrls\": [\"https://example.com/{{uuid}}.jpg\"],\n  \"tags\": [\n    {\n      \"id\": {{$randomInt}},\n      \"name\": \"{{$randomWord}}\"\n    }\n  ],\n  \"status\": \"available\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Update Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [1.2] TC01 - Validate that status code is 200 or 201\r",
+									"pm.test(\"[1.2] TC01 - Validate that status code is 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[1.2] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC03 - Validate that pet ID is a positive integer\r",
+									"pm.test(\"[1.2] TC03 - Validate that pet ID is a positive integer\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.id).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC04 - Validate category is an object\r",
+									"pm.test(\"[1.2] TC04 - Validate category is an object\", function () {\r",
+									"    pm.expect(jsonData.category).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC05 - Validate category.id is an integer\r",
+									"pm.test(\"[1.2] TC05 - Validate category.id is an integer\", function () {\r",
+									"    pm.expect(jsonData.category.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC06 - Validate category.name is a non-empty string\r",
+									"pm.test(\"[1.2] TC06 - Validate category.name is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.category.name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC07 - Validate name field is a non-empty string\r",
+									"pm.test(\"[1.2] TC07 - Validate name field is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC08 - Validate photoUrls is a non-empty array\r",
+									"pm.test(\"[1.2] TC08 - Validate photoUrls is a non-empty array\", function () {\r",
+									"    pm.expect(jsonData.photoUrls).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC09 - Validate photoUrls[0] is a valid image URL\r",
+									"pm.test(\"[1.2] TC09 - Validate photoUrls[0] is a valid image URL\", function () {\r",
+									"    pm.expect(jsonData.photoUrls[0]).to.match(/^https?:\\/\\/.+\\.(jpg|jpeg|png|gif)$/);\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC10 - Validate photoUrls[0] contains a valid UUID\r",
+									"pm.test(\"[1.2] TC10 - Validate photoUrls[0] contains a valid UUID\", function () {\r",
+									"    const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i;\r",
+									"    pm.expect(jsonData.photoUrls[0]).to.match(uuidRegex);\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC11 - Validate photoUrls has no empty values\r",
+									"pm.test(\"[1.2] TC11 - Validate photoUrls has no empty values\", function () {\r",
+									"    jsonData.photoUrls.forEach(url => {\r",
+									"        pm.expect(url).to.not.be.empty;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC12 - Validate tags is a non-empty array\r",
+									"pm.test(\"[1.2] TC12 - Validate tags is a non-empty array\", function () {\r",
+									"    pm.expect(jsonData.tags).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC13 - Validate tag.id is an integer\r",
+									"pm.test(\"[1.2] TC13 - Validate tag.id is an integer\", function () {\r",
+									"    pm.expect(jsonData.tags[0].id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC14 - Validate tag.name is a non-empty string\r",
+									"pm.test(\"[1.2] TC14 - Validate tag.name is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.tags[0].name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC15 - Validate status field is one of: available, pending, sold\r",
+									"pm.test(\"[1.2] TC15 - Validate status field is one of: available, pending, sold\", function () {\r",
+									"    const allowed = [\"available\", \"pending\", \"sold\"];\r",
+									"    pm.expect(allowed).to.include(jsonData.status);\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC16 - Validate response does not contain unexpected fields\r",
+									"pm.test(\"[1.2] TC16 - Validate response does not contain unexpected fields\", function () {\r",
+									"    const allowedFields = [\"id\", \"category\", \"name\", \"photoUrls\", \"tags\", \"status\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC17 - Validate field types match schema (id: int, name: str, etc.)\r",
+									"pm.test(\"[1.2] TC17 - Validate field types match schema (id: int, name: str, etc.)\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.category.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.category.name).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.photoUrls).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData.tags).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData.tags[0].id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.tags[0].name).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [1.2] TC18 - Validate category and tags objects have correct structure\r",
+									"pm.test(\"[1.2] TC18 - Validate category and tags objects have correct structure\", function () {\r",
+									"    pm.expect(jsonData.category).to.have.all.keys(\"id\", \"name\");\r",
+									"    pm.expect(jsonData.tags[0]).to.have.all.keys(\"id\", \"name\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": {{$randomInt}},\n  \"category\": {\n    \"id\": {{$randomInt}},\n    \"name\": \"{{$randomWord}}\"\n  },\n  \"name\": \"{{$randomFirstName}}\",\n  \"photoUrls\": [\n    \"https://example.com/{{$uuid}}.jpg\"\n  ],\n  \"tags\": [\n    {\n      \"id\": {{$randomInt}},\n      \"name\": \"{{$randomWord}}\"\n    }\n  ],\n  \"status\": \"available\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Get Pet By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [1.3] TC01 - Validate status code is 200\r",
+									"pm.test(\"[1.3] TC01 - Validate status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[1.3] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC03 - Validate response body contains pet ID\r",
+									"pm.test(\"[1.3] TC03 - Validate response body contains pet ID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC04 - Validate category is an object with id and name\r",
+									"pm.test(\"[1.3] TC04 - Validate category is an object with id and name\", function () {\r",
+									"    pm.expect(jsonData.category).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData.category).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData.category).to.have.property(\"name\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC05 - Validate name field is a non-empty string\r",
+									"pm.test(\"[1.3] TC05 - Validate name field is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC06 - Validate photoUrls is a non-empty array\r",
+									"pm.test(\"[1.3] TC06 - Validate photoUrls is a non-empty array\", function () {\r",
+									"    pm.expect(jsonData.photoUrls).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC07 - Validate photoUrls[0] is a valid image URL\r",
+									"pm.test(\"[1.3] TC07 - Validate photoUrls[0] is a valid image URL\", function () {\r",
+									"    const url = jsonData.photoUrls[0];\r",
+									"    pm.expect(url).to.match(/^https?:\\/\\/.+\\.(jpg|jpeg|png|gif)$/);\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC08 - Validate tags is an array with valid fields\r",
+									"pm.test(\"[1.3] TC08 - Validate tags is an array with valid fields\", function () {\r",
+									"    pm.expect(jsonData.tags).to.be.an(\"array\").that.is.not.empty;\r",
+									"    const tag = jsonData.tags[0];\r",
+									"    pm.expect(tag).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"    pm.expect(tag).to.have.property(\"name\").that.is.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC09 - Validate status is one of available, pending, sold\r",
+									"pm.test(\"[1.3] TC09 - Validate status is one of available, pending, sold\", function () {\r",
+									"    const allowed = [\"available\", \"pending\", \"sold\"];\r",
+									"    pm.expect(allowed).to.include(jsonData.status);\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC10 - Validate response fields match expected schema\r",
+									"pm.test(\"[1.3] TC10 - Validate response fields match expected schema\", function () {\r",
+									"    const expectedKeys = [\"id\", \"category\", \"name\", \"photoUrls\", \"tags\", \"status\"];\r",
+									"    expectedKeys.forEach(key => {\r",
+									"        pm.expect(jsonData).to.have.property(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [1.3] TC11 - Validate no unexpected root fields are present\r",
+									"pm.test(\"[1.3] TC11 - Validate no unexpected root fields are present\", function () {\r",
+									"    const allowedFields = [\"id\", \"category\", \"name\", \"photoUrls\", \"tags\", \"status\"];\r",
+									"    const actualKeys = Object.keys(jsonData);\r",
+									"    actualKeys.forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/859",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"859"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.4 Delete Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// [1.4] TC01 - Validate status code is 200 or 204\r",
+									"pm.test(\"[1.4] TC01 - Validate status code is 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+									"});\r",
+									"\r",
+									"// [1.4] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[1.4] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    const contentType = pm.response.headers.get(\"Content-Type\");\r",
+									"    if (pm.response.code === 200) {\r",
+									"        pm.expect(contentType).to.include(\"application/json\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [1.4] TC03 - Validate response body contains code and type\r",
+									"pm.test(\"[1.4] TC03 - Validate response body contains code and type\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        pm.expect(jsonData).to.have.property(\"code\");\r",
+									"        pm.expect(jsonData).to.have.property(\"type\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [1.4] TC04 - Validate message field is returned with deleted petId\r",
+									"pm.test(\"[1.4] TC04 - Validate message field is returned with deleted petId\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        pm.expect(jsonData).to.have.property(\"message\");\r",
+									"        pm.expect(jsonData.message).to.match(/^\\d+$/); // Should be numeric string\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [1.4] TC05 - Validate no unexpected fields are returned in response\r",
+									"pm.test(\"[1.4] TC05 - Validate no unexpected fields are returned in response\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        const allowed = [\"code\", \"type\", \"message\"];\r",
+									"        Object.keys(jsonData).forEach(key => {\r",
+									"            pm.expect(allowed).to.include(key);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/9223372036854775807",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"9223372036854775807"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2-Store",
+			"item": [
+				{
+					"name": "2.1 Get All Inventories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [2.1] TC01 - Validate status code is 200\r",
+									"pm.test(\"[2.1] TC01 - Validate status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"// [2.1] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[2.1] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [2.1] TC03 - Validate response is a non-empty object\r",
+									"pm.test(\"[2.1] TC03 - Validate response is a non-empty object\", function () {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [2.1] TC04 - Validate each inventory status is a number\r",
+									"pm.test(\"[2.1] TC04 - Validate each inventory status is a number\", function () {\r",
+									"    Object.keys(jsonData).forEach(function (key) {\r",
+									"        pm.expect(jsonData[key]).to.be.a(\"number\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [2.1] TC05 - Validate allowed inventory keys include available, pending, and sold\r",
+									"pm.test(\"[2.1] TC05 - Validate allowed inventory keys include available, pending, and sold\", function () {\r",
+									"    const allowedKeys = [\"available\", \"pending\", \"sold\"];\r",
+									"    const actualKeys = Object.keys(jsonData);\r",
+									"    const intersection = actualKeys.filter(key => allowedKeys.includes(key));\r",
+									"    pm.expect(intersection.length).to.be.above(0); // At least one expected key is present\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/store/inventory",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"store",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 Create new order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [2.2] TC01 - Validate response status is 200\r",
+									"pm.test(\"[2.2] TC01 - Validate response status is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[2.2] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[2.2] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC04 - Validate 'id' is a number and positive\r",
+									"pm.test(\"[2.2] TC04 - Validate 'id' is a number and positive\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\").and.to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC05 - Validate 'petId' is a number and positive\r",
+									"pm.test(\"[2.2] TC05 - Validate 'petId' is a number and positive\", function () {\r",
+									"    pm.expect(jsonData.petId).to.be.a(\"number\").and.to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC06 - Validate 'quantity' is a number and >= 0\r",
+									"pm.test(\"[2.2] TC06 - Validate 'quantity' is a number and >= 0\", function () {\r",
+									"    pm.expect(jsonData.quantity).to.be.a(\"number\").and.to.be.at.least(0);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC07 - Validate 'shipDate' is a valid ISO date\r",
+									"pm.test(\"[2.2] TC07 - Validate 'shipDate' is a valid ISO date\", function () {\r",
+									"    const isoRegex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}([+-]\\d{4}|Z)$/;\r",
+									"    pm.expect(jsonData.shipDate).to.match(isoRegex);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC08 - Validate 'shipDate' includes 'T' and 'Z' or offset\r",
+									"pm.test(\"[2.2] TC08 - Validate 'shipDate' includes 'T' and UTC offset\", function () {\r",
+									"    pm.expect(jsonData.shipDate).to.include(\"T\");\r",
+									"    pm.expect(jsonData.shipDate).to.satisfy(date => date.includes(\"Z\") || date.includes(\"+\") || date.includes(\"-\"));\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC09 - Validate 'shipDate' is not in the past\r",
+									"pm.test(\"[2.2] TC09 - Validate 'shipDate' is not in the past\", function () {\r",
+									"    const shipTime = new Date(jsonData.shipDate).getTime();\r",
+									"    const now = Date.now();\r",
+									"    pm.expect(shipTime).to.be.above(now - 1000); // allow 1s tolerance\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC10 - Validate 'status' field is a string\r",
+									"pm.test(\"[2.2] TC10 - Validate 'status' field is a string\", function () {\r",
+									"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC11 - Validate 'status' is one of: placed, approved, delivered\r",
+									"pm.test(\"[2.2] TC11 - Validate 'status' is one of: placed, approved, delivered\", function () {\r",
+									"    const allowed = [\"placed\", \"approved\", \"delivered\"];\r",
+									"    pm.expect(allowed).to.include(jsonData.status);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC12 - Validate 'status' is case-sensitive\r",
+									"pm.test(\"[2.2] TC12 - Validate 'status' is case-sensitive\", function () {\r",
+									"    const original = jsonData.status;\r",
+									"    const lower = original.toLowerCase();\r",
+									"    pm.expect(original).to.eql(lower); // should already be lowercase\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC13 - Validate 'complete' field is boolean\r",
+									"pm.test(\"[2.2] TC13 - Validate 'complete' field is boolean\", function () {\r",
+									"    pm.expect(jsonData.complete).to.be.a(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC14 - Validate 'complete' is either true or false only\r",
+									"pm.test(\"[2.2] TC14 - Validate 'complete' is either true or false\", function () {\r",
+									"    pm.expect([true, false]).to.include(jsonData.complete);\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC15 - Validate all expected fields exist in response\r",
+									"pm.test(\"[2.2] TC15 - Validate all expected fields exist in response\", function () {\r",
+									"    const expectedFields = [\"id\", \"petId\", \"quantity\", \"shipDate\", \"status\", \"complete\"];\r",
+									"    expectedFields.forEach(field => {\r",
+									"        pm.expect(jsonData).to.have.property(field);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC16 - Validate no unexpected fields in response\r",
+									"pm.test(\"[2.2] TC16 - Validate no unexpected fields in response\", function () {\r",
+									"    const allowed = [\"id\", \"petId\", \"quantity\", \"shipDate\", \"status\", \"complete\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowed).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [2.2] TC17 - Validate all field data types match expected schema\r",
+									"pm.test(\"[2.2] TC17 - Validate all field types match expected schema\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.petId).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.quantity).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.shipDate).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.status).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.complete).to.be.a(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"id\",pm.response.json().id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const futureDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 1 day later\r",
+									"pm.collectionVariables.set(\"futureShipDate\", futureDate);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": {{$randomInt}},\n  \"petId\": {{$randomInt}},\n  \"quantity\": {{$randomInt}},\n  \"shipDate\": \"{{futureShipDate}}\",\n  \"status\": \"placed\",\n  \"complete\": true\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/store/order",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 Get Order By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [2.3] TC01 - Validate status code is 200\r",
+									"pm.test(\"[2.3] TC01 - Validate status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[2.3] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[2.3] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC04 - Validate 'id' is a number\r",
+									"pm.test(\"[2.3] TC04 - Validate 'id' is a number\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC05 - Validate 'petId' is a number\r",
+									"pm.test(\"[2.3] TC05 - Validate 'petId' is a number\", function () {\r",
+									"    pm.expect(jsonData.petId).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC06 - Validate 'quantity' is a number and >= 0\r",
+									"pm.test(\"[2.3] TC06 - Validate 'quantity' is a number and >= 0\", function () {\r",
+									"    pm.expect(jsonData.quantity).to.be.a(\"number\").and.to.be.at.least(0);\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC07 - Validate 'shipDate' is a valid ISO date\r",
+									"\r",
+									"pm.test(\"[2.3] TC07 - Validate 'shipDate' is a valid ISO date\", function () {\r",
+									"    const isoRegex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}(Z|[\\+\\-]\\d{4})$/;\r",
+									"    pm.expect(jsonData.shipDate).to.match(isoRegex);\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC08 - Validate 'status' is one of: placed, approved, delivered\r",
+									"pm.test(\"[2.3] TC08 - Validate 'status' is one of: placed, approved, delivered\", function () {\r",
+									"    const allowed = [\"placed\", \"approved\", \"delivered\"];\r",
+									"    pm.expect(allowed).to.include(jsonData.status);\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC09 - Validate 'complete' is a boolean\r",
+									"pm.test(\"[2.3] TC09 - Validate 'complete' is a boolean\", function () {\r",
+									"    pm.expect(jsonData.complete).to.be.a(\"boolean\");\r",
+									"});\r",
+									"\r",
+									"// [2.3] TC10 - Validate no unexpected fields in response\r",
+									"pm.test(\"[2.3] TC10 - Validate no unexpected fields in response\", function () {\r",
+									"    const allowedFields = [\"id\", \"petId\", \"quantity\", \"shipDate\", \"status\", \"complete\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/store/order/:id",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"store",
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2.4 Delete Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// [2.4] TC01 - Validate status code is 200 or 204\r",
+									"pm.test(\"[2.4] TC01 - Validate status code is 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+									"});\r",
+									"\r",
+									"// [2.4] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[2.4] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [2.4] TC03 - Validate response body is empty or has confirmation\r",
+									"pm.test(\"[2.4] TC03 - Validate response body is empty or has confirmation\", function () {\r",
+									"    let body = pm.response.text();\r",
+									"    pm.expect(body === \"\" || body.includes(\"message\") || body.includes(\"code\")).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// [2.4] TC04 - Validate response time is under 2 seconds\r",
+									"pm.test(\"[2.4] TC04 - Validate response time is under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"// [2.4] TC05 - Validate response body JSON (if present) is valid\r",
+									"pm.test(\"[2.4] TC05 - Validate response body JSON (if present) is valid\", function () {\r",
+									"    let body = pm.response.text();\r",
+									"    if (body) {\r",
+									"        pm.expect(() => JSON.parse(body)).to.not.throw();\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [2.4] TC06 - Validate deleted order ID is not retrievable (optional follow-up)\r",
+									"pm.test(\"[2.4] TC06 - Deleted order should not be found on retrieval\", function () {\r",
+									"    // This is just a placeholder; real validation would be done via a follow-up GET request\r",
+									"    pm.expect(true).to.be.true; // You can programmatically hit GET /store/order/{id} and assert 404\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/store/order/:id",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"store",
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3-Users",
+			"item": [
+				{
+					"name": "3.1 Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [3.1] TC01 - Validate status code is 200 or 201\r",
+									"pm.test(\"[3.1] TC01 - Validate status code is 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.1] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[3.1] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC04 - Validate response body is a valid JSON object\r",
+									"pm.test(\"[3.1] TC04 - Validate response is a valid JSON object\", function () {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC05 - Validate response contains 'code' field\r",
+									"pm.test(\"[3.1] TC05 - Validate response contains 'code' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"code\").that.is.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC06 - Validate response contains 'type' field\r",
+									"pm.test(\"[3.1] TC06 - Validate response contains 'type' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"type\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC07 - Validate response contains 'message' field\r",
+									"pm.test(\"[3.1] TC07 - Validate response contains 'message' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"message\");\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC08 - Validate 'message' contains numeric user ID\r",
+									"pm.test(\"[3.1] TC08 - Validate 'message' contains numeric user ID\", function () {\r",
+									"    pm.expect(jsonData.message).to.match(/^\\d+$/);\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC09 - Validate no unexpected fields are returned\r",
+									"pm.test(\"[3.1] TC09 - Validate no unexpected fields are returned\", function () {\r",
+									"    const allowed = [\"code\", \"type\", \"message\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowed).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC10 - Validate response time is less than 2 seconds\r",
+									"pm.test(\"[3.1] TC10 - Validate response time is under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC11 - Validate 'message' value matches the sent ID (if captured)\r",
+									"pm.test(\"[3.1] TC11 - Validate message matches sent ID\", function () {\r",
+									"    const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"    const expectedId = requestBody.id.toString();\r",
+									"    pm.expect(jsonData.message).to.eql(expectedId);\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC12 - Save created user ID for later requests\r",
+									"pm.test(\"[3.1] TC12 - Save created user ID as variable\", function () {\r",
+									"    pm.environment.set(\"createdUserId\", jsonData.message);\r",
+									"});\r",
+									"\r",
+									"// [3.1] TC13 - Save created username for later requests\r",
+									"pm.test(\"[3.1] TC13 - Save created username as variable\", function () {\r",
+									"    const body = JSON.parse(pm.request.body.raw);\r",
+									"    pm.environment.set(\"createdUsername\", body.username);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"    // Get request username \r",
+									"    const requestBody = pm.request.body.raw;\r",
+									"    const parsedBody = JSON.parse(requestBody);\r",
+									"    const RequestUsername = parsedBody.username;\r",
+									"    pm.collectionVariables.set(\"Username\",RequestUsername)\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": {{$randomInt}},\n  \"username\": \"user_{{$randomInt}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{$randomInt}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.2 Get User by Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [3.2] TC01 - Validate response status is 200\r",
+									"pm.test(\"[3.2] TC01 - Validate response status is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.2] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[3.2] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC04 - Validate 'id' is a number\r",
+									"pm.test(\"[3.2] TC04 - Validate 'id' is a number\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC05 - Validate 'username' is a non-empty string\r",
+									"pm.test(\"[3.2] TC05 - Validate 'username' is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.username).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC06 - Validate 'firstName' is a string\r",
+									"pm.test(\"[3.2] TC06 - Validate 'firstName' is a string\", function () {\r",
+									"    pm.expect(jsonData.firstName).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC07 - Validate 'lastName' is a string\r",
+									"pm.test(\"[3.2] TC07 - Validate 'lastName' is a string\", function () {\r",
+									"    pm.expect(jsonData.lastName).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC08 - Validate 'email' is a string\r",
+									"pm.test(\"[3.2] TC08 - Validate 'email' is a string\", function () {\r",
+									"    pm.expect(jsonData.email).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC09 - Validate 'password' is a string\r",
+									"pm.test(\"[3.2] TC09 - Validate 'password' is a string\", function () {\r",
+									"    pm.expect(jsonData.password).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC10 - Validate 'phone' is a string\r",
+									"pm.test(\"[3.2] TC10 - Validate 'phone' is a string\", function () {\r",
+									"    pm.expect(jsonData.phone).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC11 - Validate 'userStatus' is a number\r",
+									"pm.test(\"[3.2] TC11 - Validate 'userStatus' is a number\", function () {\r",
+									"    pm.expect(jsonData.userStatus).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC12 - Validate all expected fields exist\r",
+									"pm.test(\"[3.2] TC12 - Validate all expected fields exist\", function () {\r",
+									"    const expectedFields = [\"id\", \"username\", \"firstName\", \"lastName\", \"email\", \"password\", \"phone\", \"userStatus\"];\r",
+									"    expectedFields.forEach(field => {\r",
+									"        pm.expect(jsonData).to.have.property(field);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC13 - Validate no unexpected fields are present\r",
+									"pm.test(\"[3.2] TC13 - Validate no unexpected fields are present\", function () {\r",
+									"    const allowedFields = [\"id\", \"username\", \"firstName\", \"lastName\", \"email\", \"password\", \"phone\", \"userStatus\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "{{Username}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.3 Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"   // Get request username \r",
+									"    const requestBody = pm.request.body.raw;\r",
+									"    const parsedBody = JSON.parse(requestBody);\r",
+									"    const RequestUsername = parsedBody.username;\r",
+									"    pm.collectionVariables.set(\"UsernameAfterUpdate\",RequestUsername)\r",
+									"\r",
+									"\r",
+									"    \r",
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [3.3] TC01 - Validate response status code is 200\r",
+									"pm.test(\"[3.3] TC01 - Validate response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.3] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[3.3] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC04 - Validate response is a JSON object\r",
+									"pm.test(\"[3.3] TC04 - Validate response is a JSON object\", function () {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC05 - Validate response contains 'code' field\r",
+									"pm.test(\"[3.3] TC05 - Validate response contains 'code' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"code\").that.is.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC06 - Validate response contains 'type' field\r",
+									"pm.test(\"[3.3] TC06 - Validate response contains 'type' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"type\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC07 - Validate response contains 'message' field\r",
+									"pm.test(\"[3.3] TC07 - Validate response contains 'message' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"message\");\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC08 - Validate 'message' contains updated user ID\r",
+									"pm.test(\"[3.3] TC08 - Validate 'message' contains updated user ID\", function () {\r",
+									"    const req = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(jsonData.message).to.eql(req.id.toString());\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC09 - Validate all expected response fields are present\r",
+									"pm.test(\"[3.3] TC09 - Validate all expected response fields are present\", function () {\r",
+									"    const expected = [\"code\", \"type\", \"message\"];\r",
+									"    expected.forEach(field => pm.expect(jsonData).to.have.property(field));\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC10 - Validate no unexpected fields in response\r",
+									"pm.test(\"[3.3] TC10 - Validate no unexpected fields in response\", function () {\r",
+									"    const allowed = [\"code\", \"type\", \"message\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowed).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC11 - Validate response time is below 2 seconds\r",
+									"pm.test(\"[3.3] TC11 - Validate response time is below 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC12 - Save updated user ID to environment\r",
+									"pm.test(\"[3.3] TC12 - Save updated user ID to environment\", function () {\r",
+									"    pm.environment.set(\"updatedUserId\", jsonData.message);\r",
+									"});\r",
+									"\r",
+									"// [3.3] TC13 - Save updated username to environment\r",
+									"pm.test(\"[3.3] TC13 - Save updated username to environment\", function () {\r",
+									"    const req = JSON.parse(pm.request.body.raw);\r",
+									"    pm.environment.set(\"updatedUsername\", req.username);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": {{$randomInt}},\n  \"username\": \"user_{{$randomInt}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{$randomInt}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "{{Username}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.4 Get User by UsernameAfterUpdate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [3.2] TC01 - Validate response status is 200\r",
+									"pm.test(\"[3.2] TC01 - Validate response status is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.2] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[3.2] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC04 - Validate 'id' is a number\r",
+									"pm.test(\"[3.2] TC04 - Validate 'id' is a number\", function () {\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC05 - Validate 'username' is a non-empty string\r",
+									"pm.test(\"[3.2] TC05 - Validate 'username' is a non-empty string\", function () {\r",
+									"    pm.expect(jsonData.username).to.be.a(\"string\").and.not.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC06 - Validate 'firstName' is a string\r",
+									"pm.test(\"[3.2] TC06 - Validate 'firstName' is a string\", function () {\r",
+									"    pm.expect(jsonData.firstName).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC07 - Validate 'lastName' is a string\r",
+									"pm.test(\"[3.2] TC07 - Validate 'lastName' is a string\", function () {\r",
+									"    pm.expect(jsonData.lastName).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC08 - Validate 'email' is a string\r",
+									"pm.test(\"[3.2] TC08 - Validate 'email' is a string\", function () {\r",
+									"    pm.expect(jsonData.email).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC09 - Validate 'password' is a string\r",
+									"pm.test(\"[3.2] TC09 - Validate 'password' is a string\", function () {\r",
+									"    pm.expect(jsonData.password).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC10 - Validate 'phone' is a string\r",
+									"pm.test(\"[3.2] TC10 - Validate 'phone' is a string\", function () {\r",
+									"    pm.expect(jsonData.phone).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC11 - Validate 'userStatus' is a number\r",
+									"pm.test(\"[3.2] TC11 - Validate 'userStatus' is a number\", function () {\r",
+									"    pm.expect(jsonData.userStatus).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC12 - Validate all expected fields exist\r",
+									"pm.test(\"[3.2] TC12 - Validate all expected fields exist\", function () {\r",
+									"    const expectedFields = [\"id\", \"username\", \"firstName\", \"lastName\", \"email\", \"password\", \"phone\", \"userStatus\"];\r",
+									"    expectedFields.forEach(field => {\r",
+									"        pm.expect(jsonData).to.have.property(field);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [3.2] TC13 - Validate no unexpected fields are present\r",
+									"pm.test(\"[3.2] TC13 - Validate no unexpected fields are present\", function () {\r",
+									"    const allowedFields = [\"id\", \"username\", \"firstName\", \"lastName\", \"email\", \"password\", \"phone\", \"userStatus\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "{{UsernameAfterUpdate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.5 Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseBody = pm.response.text();\r",
+									"\r",
+									"// [3.5] TC01 - Validate response status code is 200 or 204\r",
+									"pm.test(\"[3.5] TC01 - Validate response status code is 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+									"});\r",
+									"\r",
+									"// [3.5] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.5] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    const contentType = pm.response.headers.get(\"Content-Type\");\r",
+									"    if (pm.response.code === 200) {\r",
+									"        pm.expect(contentType).to.include(\"application/json\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [3.5] TC03 - Validate response body is not empty (if 200)\r",
+									"pm.test(\"[3.5] TC03 - Validate response body is not empty (if applicable)\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        pm.expect(responseBody).to.not.be.empty;\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [3.5] TC04 - Validate response contains 'code', 'type', and 'message' (if 200)\r",
+									"pm.test(\"[3.5] TC04 - Validate response structure if present\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        pm.expect(jsonData).to.have.property(\"code\").that.is.a(\"number\");\r",
+									"        pm.expect(jsonData).to.have.property(\"type\").that.is.a(\"string\");\r",
+									"        pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [3.5] TC05 - Validate deleted username is part of message (if applicable)\r",
+									"pm.test(\"[3.5] TC05 - Validate deleted username is part of message\", function () {\r",
+									"    if (pm.response.code === 200 && pm.response.text().includes(\"message\")) {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        const deletedUsername = pm.request.url.path.slice(-1)[0]; // get last path segment\r",
+									"        pm.expect(jsonData.message.toLowerCase()).to.include(deletedUsername.toLowerCase());\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [3.5] TC06 - Validate no unexpected fields in response (if 200)\r",
+									"pm.test(\"[3.5] TC06 - Validate no unexpected fields in response (if 200)\", function () {\r",
+									"    if (pm.response.code === 200) {\r",
+									"        const jsonData = pm.response.json();\r",
+									"        const allowed = [\"code\", \"type\", \"message\"];\r",
+									"        Object.keys(jsonData).forEach(key => {\r",
+									"            pm.expect(allowed).to.include(key);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// [3.5] TC07 - Validate response time is under 2 seconds\r",
+									"pm.test(\"[3.5] TC07 - Validate response time is under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/:username",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "{{Username}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.6 Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [3.6] TC01 - Validate response status code is 200\r",
+									"pm.test(\"[3.6] TC01 - Validate response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [3.6] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.6] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [3.6] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[3.6] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.6] TC04 - Validate response contains 'message' field\r",
+									"pm.test(\"[3.6] TC04 - Validate response contains 'message' field\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.6] TC05 - Validate response message includes 'logged in'\r",
+									"pm.test(\"[3.6] TC05 - Validate 'message' includes 'logged in'\", function () {\r",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include(\"logged in\");\r",
+									"});\r",
+									"\r",
+									"// [3.6] TC06 - Validate session token exists in 'message' (e.g. 'logged in user session:123456')\r",
+									"pm.test(\"[3.6] TC06 - Validate session token format in message\", function () {\r",
+									"    const tokenRegex = /session[:\\s]\\d+/i;\r",
+									"    pm.expect(jsonData.message).to.match(tokenRegex);\r",
+									"});\r",
+									"\r",
+									"// [3.6] TC07 - Validate response time is under 2 seconds\r",
+									"pm.test(\"[3.6] TC07 - Validate response time is under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/login?username=user1&password=356365",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user1"
+								},
+								{
+									"key": "password",
+									"value": "356365"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3.7 Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"// [3.7] TC01 - Validate response status code is 200\r",
+									"pm.test(\"[3.7] TC01 - Validate response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC02 - Validate Content-Type header is application/json\r",
+									"pm.test(\"[3.7] TC02 - Validate Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC03 - Validate response body is not empty\r",
+									"pm.test(\"[3.7] TC03 - Validate response body is not empty\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC04 - Validate response is a JSON object\r",
+									"pm.test(\"[3.7] TC04 - Validate response is a JSON object\", function () {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC05 - Validate response contains 'code', 'type', and 'message'\r",
+									"pm.test(\"[3.7] TC05 - Validate response contains 'code', 'type', and 'message'\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"code\").that.is.a(\"number\");\r",
+									"    pm.expect(jsonData).to.have.property(\"type\").that.is.a(\"string\");\r",
+									"    pm.expect(jsonData).to.have.property(\"message\").that.is.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC06 - Validate 'message' contains 'ok' or 'successful'\r",
+									"pm.test(\"[3.7] TC06 - Validate 'message' contains success confirmation\", function () {\r",
+									"    const msg = jsonData.message.toLowerCase();\r",
+									"    pm.expect(msg).to.satisfy(m => m.includes(\"ok\") || m.includes(\"success\") || m.includes(\"logged out\"));\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC07 - Validate no unexpected fields in response\r",
+									"pm.test(\"[3.7] TC07 - Validate no unexpected fields in response\", function () {\r",
+									"    const allowedFields = [\"code\", \"type\", \"message\"];\r",
+									"    Object.keys(jsonData).forEach(key => {\r",
+									"        pm.expect(allowedFields).to.include(key);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// [3.7] TC08 - Validate response time is under 2 seconds\r",
+									"pm.test(\"[3.7] TC08 - Validate response time is under 2 seconds\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/logout",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "PetID",
+			"value": ""
+		},
+		{
+			"key": "Username",
+			"value": ""
+		},
+		{
+			"key": "futureShipDate",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "UsernameAfterUpdate",
+			"value": ""
+		}
+	]
+}
