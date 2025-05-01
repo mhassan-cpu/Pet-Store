@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "77e1683a-013f-47f2-a502-db3bf6a7abc8",
 		"name": "Pet-Store",
+		"description": "  \n\n<img src=\"https://content.pstmn.io/e972276c-4cb5-4660-8da2-2597121ff43f/RG93bmxvYWQucG5n\" alt=\"\">\n\n  \n  \n\n**Swagger Petstore API** is a publicly available RESTful web service developed by Swagger.io. It is designed as a sandbox for learning, experimenting, and demonstrating API automation, testing tools, and client SDKs.\n\n🌐 Swagger UI: [https://petstore.swagger.io/](https://petstore.swagger.io/)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18930967",
 		"_collection_link": "https://www.postman.com/yxyxyxyxyxyx/workspace/xyz2/collection/18930967-77e1683a-013f-47f2-a502-db3bf6a7abc8?action=share&source=collection_link&creator=18930967"
@@ -125,6 +126,9 @@
 									"    pm.expect(jsonData.category).to.have.all.keys(\"id\", \"name\");\r",
 									"    pm.expect(jsonData.tags[0]).to.have.all.keys(\"id\", \"name\");\r",
 									"});\r",
+									"\r",
+									"//save petid\r",
+									"pm.collectionVariables.set(\"PetID\",pm.response.json().id);\r",
 									""
 								],
 								"type": "text/javascript",
@@ -178,9 +182,88 @@
 								"v2",
 								"pet"
 							]
-						}
+						},
+						"description": "### Create a New Pet\n\nThis endpoint is used to add a new pet to the store.\n\n#### Request Body\n\n- id (integer, optional): The unique ID of the pet.\n    \n\n#### Response\n\nThe response of this request is a JSON schema describing the structure of the response data."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "1.1 Create new Pet",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 125,\n  \"category\": {\n    \"id\": 423,\n    \"name\": \"Account\"\n  },\n  \"name\": \"Merle\",\n  \"photoUrls\": [\"https://example.com/{{uuid}}.jpg\"],\n  \"tags\": [\n    {\n      \"id\": 684,\n      \"name\": \"withdrawal\"\n    }\n  ],\n  \"status\": \"available\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/pet",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"pet"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 00:59:07 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 327,\n    \"category\": {\n        \"id\": 850,\n        \"name\": \"initiatives\"\n    },\n    \"name\": \"Maximilian\",\n    \"photoUrls\": [\n        \"https://example.com/{{$uuid}}.jpg\"\n    ],\n    \"tags\": [\n        {\n            \"id\": 669,\n            \"name\": \"architect\"\n        }\n    ],\n    \"status\": \"available\"\n}"
+						}
+					]
 				},
 				{
 					"name": "1.2 Update Pet",
@@ -338,9 +421,89 @@
 								"pet",
 								""
 							]
-						}
+						},
+						"description": "### Update Pet Information\n\nThis endpoint allows you to update pet information by sending an HTTP PUT request to the specified URL.\n\n#### Request Body\n\n- `id` (integer, required): The unique ID of the pet to be updated.\n    \n\n#### Response\n\nThe response will include the updated information for the pet."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "1.2 Update Pet",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 938,\n  \"category\": {\n    \"id\": 299,\n    \"name\": \"networks\"\n  },\n  \"name\": \"Reinhold\",\n  \"photoUrls\": [\n    \"https://example.com/{{$uuid}}.jpg\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 965,\n      \"name\": \"content\"\n    }\n  ],\n  \"status\": \"available\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/pet/",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"pet",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 00:59:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 500,\n    \"category\": {\n        \"id\": 735,\n        \"name\": \"Lead\"\n    },\n    \"name\": \"Charity\",\n    \"photoUrls\": [\n        \"https://example.com/{{$uuid}}.jpg\"\n    ],\n    \"tags\": [\n        {\n            \"id\": 267,\n            \"name\": \"capacitor\"\n        }\n    ],\n    \"status\": \"available\"\n}"
+						}
+					]
 				},
 				{
 					"name": "1.3 Get Pet By ID",
@@ -436,7 +599,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://petstore.swagger.io/v2/pet/859",
+							"raw": "https://petstore.swagger.io/v2/pet/:id",
 							"protocol": "https",
 							"host": [
 								"petstore",
@@ -446,11 +609,90 @@
 							"path": [
 								"v2",
 								"pet",
-								"859"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{PetID}}"
+								}
 							]
-						}
+						},
+						"description": "# Get Pet by ID\n\nThis endpoint retrieves a specific pet from the pet store based on the provided pet ID.\n\n## Request\n\n### Request URL\n\n- Method: GET\n    \n- URL: `https://petstore.swagger.io/v2/pet/859`\n    \n\n## Response\n\nUpon a successful request, the server will respond with the details of the specific pet in the following format:\n\n- Pet ID (integer)\n    \n- Pet Name (string)\n    \n- Photo URLs (array of strings)\n    \n- Tags (array of objects containing tag details)\n    \n- Status (string)\n    \n\nIf the pet with the provided ID is not found, the server will respond with an appropriate error message."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "1.3 Get Pet By ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/pet/:id",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"pet",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:01:23 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 274,\n    \"category\": {\n        \"id\": 854,\n        \"name\": \"Euro\"\n    },\n    \"name\": \"Bennett\",\n    \"photoUrls\": [\n        \"https://example.com/{{$uuid}}.jpg\"\n    ],\n    \"tags\": [\n        {\n            \"id\": 890,\n            \"name\": \"Home\"\n        }\n    ],\n    \"status\": \"available\"\n}"
+						}
+					]
 				},
 				{
 					"name": "1.4 Delete Pet",
@@ -516,7 +758,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://petstore.swagger.io/v2/pet/9223372036854775807",
+							"raw": "https://petstore.swagger.io/v2/pet/:id",
 							"protocol": "https",
 							"host": [
 								"petstore",
@@ -526,11 +768,90 @@
 							"path": [
 								"v2",
 								"pet",
-								"9223372036854775807"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{PetID}}"
+								}
 							]
-						}
+						},
+						"description": "### Delete Pet\n\nThis endpoint is used to delete a specific pet from the pet store.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\nThe response will not contain a response body. The status code will indicate the success or failure of the delete operation."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "1.4 Delete Pet",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/pet/:id",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"pet",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:02:09 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"274\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -603,9 +924,76 @@
 								"store",
 								"inventory"
 							]
-						}
+						},
+						"description": "### Retrieve Pet Inventory\n\nThis endpoint retrieves the current inventory of pets available in the store.\n\n#### Request\n\n- Method: GET\n    \n- URL: `https://petstore.swagger.io/v2/store/inventory`\n    \n\n#### Response\n\nThe response for this request can be represented as a JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"available\": {\n      \"type\": \"integer\"\n    },\n    \"pending\": {\n      \"type\": \"integer\"\n    },\n    \"sold\": {\n      \"type\": \"integer\"\n    }\n    // Additional properties may be present based on the specific inventory items\n  }\n}\n\n ```"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "2.1 Get All Inventories",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/store/inventory",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"store",
+										"inventory"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:02:30 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"sold\": 3,\n    \"string\": 254,\n    \"http://129.84.2.120/serverinclude.html?available\": 1,\n    \"pending\": 2,\n    \"available\": 81,\n    \"peric\": 5\n}"
+						}
+					]
 				},
 				{
 					"name": "2.2 Create new order",
@@ -774,9 +1162,89 @@
 								"store",
 								"order"
 							]
-						}
+						},
+						"description": "### Place an Order\n\nThis endpoint is used to place a new order in the pet store.\n\n#### Request Body\n\n- `id` (integer, required): The unique identifier for the order.\n    \n\n#### Response\n\nThe response for this request is a JSON object representing the placed order. The schema for the response can be documented as follows:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"integer\"\n    },\n    \"petId\": {\n      \"type\": \"integer\"\n    },\n    \"quantity\": {\n      \"type\": \"integer\"\n    },\n    \"shipDate\": {\n      \"type\": \"string\",\n      \"format\": \"date-time\"\n    },\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"complete\": {\n      \"type\": \"boolean\"\n    }\n  }\n}\n\n ```"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "2.2 Create new order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 820,\n  \"petId\": 260,\n  \"quantity\": 555,\n  \"shipDate\": \"\",\n  \"status\": \"placed\",\n  \"complete\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/store/order",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"store",
+										"order"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:02:43 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 876,\n    \"petId\": 575,\n    \"quantity\": 325,\n    \"shipDate\": \"2025-05-02T01:02:45.026+0000\",\n    \"status\": \"placed\",\n    \"complete\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "2.3 Get Order By ID",
@@ -878,9 +1346,83 @@
 									"value": "{{id}}"
 								}
 							]
-						}
+						},
+						"description": "### Get Order by ID\n\nThis endpoint retrieves the details of a specific order by providing the order ID in the URL path.\n\n#### Request Body\n\nThis endpoint does not require a request body.\n\n#### Response Body\n\n- `id`: The unique identifier for the order.\n    \n- `petId`: The ID of the pet that is being ordered.\n    \n- `quantity`: The quantity of the pet being ordered.\n    \n- `shipDate`: The date when the order is to be shipped.\n    \n- `status`: The status of the order.\n    \n- `complete`: Indicates if the order has been completed."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "2.3 Get Order By ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/store/order/:id",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"store",
+										"order",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:02:57 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 573,\n    \"petId\": 237,\n    \"quantity\": 669,\n    \"shipDate\": \"2025-05-02T01:02:50.719+0000\",\n    \"status\": \"placed\",\n    \"complete\": true\n}"
+						}
+					]
 				},
 				{
 					"name": "2.4 Delete Order",
@@ -958,9 +1500,83 @@
 									"value": "{{id}}"
 								}
 							]
-						}
+						},
+						"description": "### Delete Order\n\nThis endpoint is used to delete an order from the pet store.\n\n#### Request Body\n\n- No request body is required for this endpoint.\n    \n\n#### Response\n\n- The response will indicate the success or failure of the deletion operation."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "2.4 Delete Order",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/store/order/:id",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"store",
+										"order",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:03:10 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"573\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1095,9 +1711,88 @@
 								"v2",
 								"user"
 							]
-						}
+						},
+						"description": "### Add User\n\nThis endpoint allows you to add a new user to the pet store.\n\n#### Request Body\n\n- `id` (integer, required): The unique ID of the user.\n    \n\n#### Response\n\nUpon a successful request, the response will include the details of the newly added user."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.1 Create User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 702,\n  \"username\": \"user_120\",\n  \"firstName\": \"Lelia\",\n  \"lastName\": \"Beatty\",\n  \"email\": \"Adah19@gmail.com\",\n  \"password\": \"kSwFgdqEBMndbJj\",\n  \"phone\": \"419-782-8846\",\n  \"userStatus\": 323\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:03:22 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"863\"\n}"
+						}
+					]
 				},
 				{
 					"name": "3.2 Get User by Username",
@@ -1212,9 +1907,82 @@
 									"value": "{{Username}}"
 								}
 							]
-						}
+						},
+						"description": "\nThis endpoint retrieves a user's information based on the provided username.\n\n### Request\n\n- Path parameter:\n  - `username`: The username of the user for whom the information is being retrieved.\n\n### Response\n\nUpon a successful request, the response will include the user's details, such as their ID, username, email, phone, and user status.\n\n"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.2 Get User by Username",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/:username",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:03:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 227,\n    \"username\": \"user_431\",\n    \"firstName\": \"Courtney\",\n    \"lastName\": \"Miller\",\n    \"email\": \"Julia_McDermott@yahoo.com\",\n    \"password\": \"JXCkytlN5ZM9tDV\",\n    \"phone\": \"772-255-8024\",\n    \"userStatus\": 80\n}"
+						}
+					]
 				},
 				{
 					"name": "3.3 Update User",
@@ -1351,9 +2119,95 @@
 									"value": "{{Username}}"
 								}
 							]
-						}
+						},
+						"description": "### Update User Information\n\nThis endpoint is used to update user information based on the provided username.\n\n#### Request Parameters\n\n- `username` (path): The username of the user whose information needs to be updated.\n    \n\n#### Request Body\n\n- `id` (object): The ID of the user.\n    \n\n#### Response\n\nThe response of this request is a JSON schema representing the updated user information."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.3 Update User",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": {{$randomInt}},\n  \"username\": \"user_{{$randomInt}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{$randomInt}}\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/:username",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "{{Username}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:03:54 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"905\"\n}"
+						}
+					]
 				},
 				{
 					"name": "3.4 Get User by UsernameAfterUpdate",
@@ -1468,9 +2322,82 @@
 									"value": "{{UsernameAfterUpdate}}"
 								}
 							]
-						}
+						},
+						"description": "This endpoint retrieves a user's information based on the provided username.\n\n### Request\n\n- Method: GET\n    \n- URL: `https://petstore.swagger.io/v2/user/:username`\n    \n- Path Parameters:\n    \n    - `username`: The username of the user whose information is to be retrieved.\n        \n\n### Response\n\n- The response will include the user's information such as username, email, phone, and other details."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.4 Get User by UsernameAfterUpdate",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/:username",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "{{UsernameAfterUpdate}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:04:05 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 906,\n    \"username\": \"user_79\",\n    \"firstName\": \"Toney\",\n    \"lastName\": \"Koelpin\",\n    \"email\": \"Flossie34@gmail.com\",\n    \"password\": \"yukfiLb8vsCuL_B\",\n    \"phone\": \"293-633-4776\",\n    \"userStatus\": 78\n}"
+						}
+					]
 				},
 				{
 					"name": "3.5 Delete User",
@@ -1569,9 +2496,82 @@
 									"value": "{{Username}}"
 								}
 							]
-						}
+						},
+						"description": "### Delete User by Username\n\nThis endpoint is used to delete a user from the pet store by providing the username as a path parameter.\n\n#### Request\n\n- Method: DELETE\n    \n- Endpoint: `https://petstore.swagger.io/v2/user/:username`\n    \n- Path Parameters:\n    \n    - `username`: The username of the user to be deleted.\n        \n\n#### Response\n\nThe response of this request is a JSON schema representing the response structure for the delete user operation."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.5 Delete User",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/:username",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "{{Username}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:04:23 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"user_431\"\n}"
+						}
+					]
 				},
 				{
 					"name": "3.6 Login",
@@ -1655,9 +2655,94 @@
 									"value": "356365"
 								}
 							]
-						}
+						},
+						"description": "\n### User Login\n\nThis endpoint is used to authenticate a user by providing their username and password.\n\n#### Request\n\n- Method: GET\n- Endpoint: `https://petstore.swagger.io/v2/user/login`\n- Query Parameters:\n  - `username` (string, required): The username of the user.\n  - `password` (string, required): The password of the user.\n\n#### Response\n\nThe response for this request is a JSON object conforming to the following schema:\n\n```json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"integer\"\n    },\n    \"username\": {\n      \"type\": \"string\"\n    },\n    \"firstName\": {\n      \"type\": \"string\"\n    },\n    \"lastName\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\"\n    },\n    \"password\": {\n      \"type\": \"string\"\n    },\n    \"phone\": {\n      \"type\": \"string\"\n    },\n    \"userStatus\": {\n      \"type\": \"integer\",\n      \"format\": \"int32\"\n    }\n  }\n}\n```\n"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.6 Login",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/login?username=user1&password=356365",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "user1"
+										},
+										{
+											"key": "password",
+											"value": "356365"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:04:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "X-Expires-After",
+									"value": "Thu May 01 02:04:35 UTC 2025"
+								},
+								{
+									"key": "X-Rate-Limit",
+									"value": "5000"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"logged in user session:1746061475628\"\n}"
+						}
+					]
 				},
 				{
 					"name": "3.7 Logout",
@@ -1741,9 +2826,76 @@
 								"user",
 								"logout"
 							]
-						}
+						},
+						"description": "# Logout User\n\nThis endpoint is used to log out a user from the system.\n\n## Request\n\n- Method: `GET`\n    \n- URL: `https://petstore.swagger.io/v2/user/logout`\n    \n\n## Response\n\nThe response for this request does not include a response body. The status code indicates the success or failure of the logout operation."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "3.7 Logout",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://petstore.swagger.io/v2/user/logout",
+									"protocol": "https",
+									"host": [
+										"petstore",
+										"swagger",
+										"io"
+									],
+									"path": [
+										"v2",
+										"user",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 01 May 2025 01:04:46 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, api_key, Authorization"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.2.9.v20150224)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 200,\n    \"type\": \"unknown\",\n    \"message\": \"ok\"\n}"
+						}
+					]
 				}
 			]
 		}
